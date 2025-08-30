@@ -111,8 +111,8 @@ function renderReviews() {
     alert("Please enter a valid email.");
     return;
   }
-  if (!text || text.length < 10) {
-    alert("Review must be at least 10 characters.");
+  if (!text || text.length < 2) {
+    alert("Review must be at least 2 characters.");
     return;
   }
   if (!rating) {
@@ -190,37 +190,111 @@ function checkEmptyReviews() {
 checkEmptyReviews();
 
 // Search
-document.getElementById("searchForm").addEventListener("submit", e => {
+// Search with OMDb API + Reset + Hide categories
+document.getElementById("searchForm").addEventListener("submit", async e => {
   e.preventDefault();
-  const q = document.getElementById("searchInput").value.trim().toLowerCase();
-  const filtered = movies.filter(m => m.title.toLowerCase().includes(q));
-  ["original", "trending", "popular"].forEach(cat => {
-    const rail = document.getElementById(`rail-${cat}`);
-    rail.innerHTML = "";
-    filtered.filter(m => m.cat === cat).forEach(m => {
-      const div = document.createElement("div");
-      div.className = "poster";
-      div.dataset.id = m.id;
-      div.innerHTML = `<img src="${m.poster}"><div>${m.title}</div>`;
-      div.addEventListener("click", () => openDetails(m.id));
-      rail.appendChild(div);
-    });
-  });
+
+  const q = document.getElementById("searchInput").value.trim();
+  const movieColumn = document.querySelector(".movie-column");
+
+  // ✅ If empty -> reset to default sampleMovies
+  if (!q) {
+    movieColumn.querySelector("main").style.display = "block"; // show originals/trending/popular again
+    const searchSection = document.getElementById("searchSection");
+    if (searchSection) searchSection.remove(); // remove search results section
+    renderRows();
+    return;
+  }
+
+  try {
+    const API_KEY = "168f6399"; // 🔑 replace with your OMDb key
+    const res = await fetch(`https://www.omdbapi.com/?s=${encodeURIComponent(q)}&apikey=${API_KEY}`);
+    const data = await res.json();
+
+    // ✅ Hide originals/trending/popular block
+    movieColumn.querySelector("main").style.display = "none";
+
+    // ✅ Remove old search section if any
+    let searchSection = document.getElementById("searchSection");
+    if (searchSection) searchSection.remove();
+
+    // ✅ Create new search results section
+    searchSection = document.createElement("div");
+    searchSection.id = "searchSection";
+
+    const rowTitle = document.createElement("div");
+    rowTitle.className = "d-flex justify-content-between align-items-center mt-3";
+    rowTitle.innerHTML = `<div class="row-title">Search Results for "${q}"</div>`;
+    searchSection.appendChild(rowTitle);
+
+    const rail = document.createElement("div");
+    rail.className = "rail";
+    searchSection.appendChild(rail);
+
+    if (data.Search) {
+      data.Search.forEach(m => {
+        const div = document.createElement("div");
+        div.className = "poster";
+        div.dataset.id = m.imdbID;
+        div.innerHTML = `
+          <img src="${m.Poster !== "N/A" ? m.Poster : "https://via.placeholder.com/150"}" alt="${m.Title}">
+          <div class="overlay"><div class="title">${m.Title}</div></div>
+        `;
+        div.addEventListener("click", async () => {
+          const detailRes = await fetch(`https://www.omdbapi.com/?i=${m.imdbID}&apikey=${API_KEY}`);
+          const detail = await detailRes.json();
+          activeMovieId = m.imdbID;
+          document.getElementById("detailsTitle").textContent = detail.Title;
+          document.getElementById("detailsPoster").src = detail.Poster;
+          document.getElementById("detailsYear").textContent = detail.Year;
+          document.getElementById("detailsGenre").textContent = detail.Genre;
+          document.getElementById("detailsPlot").textContent = detail.Plot;
+          renderReviews();
+          new bootstrap.Modal(document.getElementById("detailsModal")).show();
+        });
+        rail.appendChild(div);
+      });
+    } else {
+      rail.innerHTML = `<p class="text-muted">No results found for "${q}".</p>`;
+    }
+
+    movieColumn.appendChild(searchSection);
+  } catch (err) {
+    console.error("Search error:", err);
+  }
 });
+
 
 
 // Sort
 document.querySelectorAll(".sort-option").forEach(btn => {
   btn.addEventListener("click", () => {
     const type = btn.dataset.sort;
+
     movies.sort((a, b) => {
-      if (type === "title") return a.title.localeCompare(b.title);
-      if (type === "year") return b.year - a.year;
-      if (type === "ratingDesc") return avgRating(b.id) - avgRating(a.id);
-      if (type === "ratingAsc") return avgRating(a.id) - avgRating(b.id);
+      if (type === "genre") {
+        // sort alphabetically by first genre id (you can map IDs → names later)
+        const genreA = (a.genre_ids?.[0] || 0).toString();
+        const genreB = (b.genre_ids?.[0] || 0).toString();
+        return genreA.localeCompare(genreB);
+      }
+
+      if (type === "year") {
+        // sort by release year (newest → oldest)
+        const yearA = a.release_date ? parseInt(a.release_date.slice(0, 4)) : 0;
+        const yearB = b.release_date ? parseInt(b.release_date.slice(0, 4)) : 0;
+        return yearB - yearA;
+      }
+
+      if (type === "rating") {
+        // sort by rating (high → low)
+        return b.vote_average - a.vote_average;
+      }
+
       return 0;
     });
-    renderRows();
+
+    renderRows(); // your existing render function
   });
 });
 
@@ -235,29 +309,29 @@ document.getElementById("heroInfo").addEventListener("click", () => {
   if (f) openDetails(f.id);
 });
 
-// OMDb fetch
-document.getElementById("omdbFetchBtn").addEventListener("click", async () => {
-  const key = document.getElementById("omdbKey").value.trim();
-  const term = document.getElementById("omdbTerm").value.trim();
-  if (!key || !term) return;
-  const res = await fetch(`https://www.omdbapi.com/?apikey=${key}&s=${encodeURIComponent(term)}`);
-  const data = await res.json();
-  if (data.Search) {
-    data.Search.slice(0, 9).forEach((m, i) => {
-      movies.push({
-        id: m.imdbID,
-        title: m.Title,
-        year: parseInt(m.Year) || 0,
-        genre: "N/A",
-        plot: "N/A",
-        poster: m.Poster !== "N/A" ? m.Poster : "https://via.placeholder.com/300x450?text=No+Image",
-        cat: ["original", "trending", "popular"][i % 3]
-      });
-    });
-    renderRows();
-    bootstrap.Modal.getInstance(document.getElementById("apiModal")).hide();
-  }
-});
+//OMDb fetch
+// document.getElementById("omdbFetchBtn").addEventListener("click", async () => {
+//   const key = document.getElementById("omdbKey").value.trim();
+//   const term = document.getElementById("omdbTerm").value.trim();
+//   if (!key || !term) return;
+//   const res = await fetch(`https://www.omdbapi.com/?apikey=${key}&s=${encodeURIComponent(term)}`);
+//   const data = await res.json();
+//   if (data.Search) {
+//     data.Search.slice(0, 9).forEach((m, i) => {
+//       movies.push({
+//         id: m.imdbID,
+//         title: m.Title,
+//         year: parseInt(m.Year) || 0,
+//         genre: "N/A",
+//         plot: "N/A",
+//         poster: m.Poster !== "N/A" ? m.Poster : "https://via.placeholder.com/300x450?text=No+Image",
+//         cat: ["original", "trending", "popular"][i % 3]
+//       });
+//     });
+//     renderRows();
+//     bootstrap.Modal.getInstance(document.getElementById("apiModal")).hide();
+//   }
+// });
 
 //scroll controls
 document.querySelectorAll(".pager button").forEach(btn => {
@@ -282,30 +356,39 @@ document.querySelectorAll(".pager button").forEach(btn => {
 renderRows();
 
 
-fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`)
-  .then(res => res.json())
-  .then(data => {
-    const movies = data.results;
-    const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+let player;
 
-    
-    fetch(`https://api.themoviedb.org/3/movie/${randomMovie.id}/videos?api_key=${API_KEY}&language=en-US`)
-      .then(res => res.json())
-      .then(videoData => {
-        const trailer = videoData.results.find(
-          v => v.type === "Trailer" && v.site === "YouTube"
-        );
-
-        if (trailer) {
-          
-          const youtubeUrl = `https://www.youtube.com/embed/${trailer.key}?autoplay=1&mute=1&loop=1&playlist=${trailer.key}`;
-          console.log("Trailer URL:", youtubeUrl); 
-          document.getElementById("heroVideo").src = youtubeUrl;
-        } else {
-          console.log("No trailer found, fallback to background image.");
-        }
-      });
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player("heroVideo", {
+    videoId: "hDZ7y8RP5HE", // default video, or replace later with TMDB trailer
+    playerVars: {
+      autoplay: 1,
+      mute: 1,
+      loop: 1,
+      playlist: "hDZ7y8RP5HE", // required for loop
+      controls: 0,
+      modestbranding: 1,
+    }
   });
+}
+
+// Example mute/unmute button
+document.addEventListener("DOMContentLoaded", () => {
+  const muteBtn = document.getElementById("muteBtn");
+  const icon = muteBtn.querySelector("i");
+
+  muteBtn.addEventListener("click", () => {
+    if (!player) return; // Player not ready yet
+
+    if (player.isMuted()) {
+      player.unMute();
+      icon.classList.replace("fa-volume-mute", "fa-volume-up");
+    } else {
+      player.mute();
+      icon.classList.replace("fa-volume-up", "fa-volume-mute");
+    }
+  });
+});
 
 
 

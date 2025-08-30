@@ -29,16 +29,16 @@
         <button class="btn btn-outline-light ms-2" type="submit"><i class="fa fa-search"></i></button>
       </form>
       <div class="ms-2 d-flex align-items-center gap-2">
-        <div class="dropdown">
-          <button class="btn btn-outline-light dropdown-toggle" data-bs-toggle="dropdown">Sort</button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item sort-option" data-sort="ratingDesc">Rating (High→Low)</a></li>
-            <li><a class="dropdown-item sort-option" data-sort="ratingAsc">Rating (Low→High)</a></li>
-            <li><a class="dropdown-item sort-option" data-sort="popularity">Popularity</a></li>
-            <li><a class="dropdown-item sort-option" data-sort="title">Title A→Z</a></li>
-            <li><a class="dropdown-item sort-option" data-sort="year">Year (Newest)</a></li>
-          </ul>
-        </div>
+  <div class="dropdown">
+    <button class="btn btn-outline-light dropdown-toggle" data-bs-toggle="dropdown">Sort</button>
+    <ul class="dropdown-menu dropdown-menu-end">
+      <li><a class="dropdown-item sort-option" data-sort="genre">Genre</a></li>
+      <li><a class="dropdown-item sort-option" data-sort="year">Year (Newest)</a></li>
+      <li><a class="dropdown-item sort-option" data-sort="rating">Rating (High→Low)</a></li>
+    </ul>
+  </div>
+</div>
+
         <div class="form-check form-switch ms-2">
           <input class="form-check-input" type="checkbox" role="switch" id="themeToggle">
           <label class="form-check-label" for="themeToggle">Light</label>
@@ -56,6 +56,9 @@
       allow="autoplay; encrypted-media"
       allowfullscreen>
     </iframe>
+    <button id="muteBtn" class="mute-toggle">
+    <i class="fas fa-volume-mute"></i>
+  </button>
   </div>
 
   <div class="hero-gradient"></div>
@@ -142,7 +145,7 @@
                   <div class="col-12">
                     <label class="form-label">Review</label>
                     <textarea class="form-control" id="revText" rows="3" placeholder="What did you think?" required></textarea>
-                    <div class="invalid-feedback">Min 10 characters.</div>
+                    <div class="invalid-feedback">Min 2 characters.</div>
                   </div>
                 </div>
                 <div class="mt-3 d-flex gap-2">
@@ -163,7 +166,7 @@
     </div>
   </div>
 
-  <!-- OMDb Modal -->
+  OMDb Modal
   <div class="modal fade" id="apiModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -189,6 +192,11 @@
       </div>
     </div>
   </div>
+
+  <!-- footer -->
+   <footer class="footer-1 text-center py-3 small">
+  © <span id="year"></span> BINGEBOX • All rights reserved.
+</footer>
 
   
 

@@ -159,6 +159,26 @@ a{
   transform: translateY(-40%);
 }
 
+.mute-toggle {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+  background: rgba(248, 240, 240, 0.6);
+  color: rgb(251, 248, 248);
+  border: none;
+  padding: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+
 
 
 
@@ -294,3 +314,12 @@ body.light .list-group-item{
     font-size:.85rem; 
     font-weight:600; 
 }
+.footer-1{
+    background: rgba(0,0,0,0.55);
+    color: #ddd;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(6px);
+  }
+  body.light .footer-1{ 
+    background: rgba(255,255,255,0.8); color:#222; border-top:1px solid #eee; 
+  }
