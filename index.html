@@ -1,110 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BingeBox</title>
-  
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
- 
+
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
   <link rel="stylesheet" href="style.css">
- 
-  
+
+
 
 </head>
+
 <body>
-  
+
   <!-- NavBar -->
   <div class="nf-navbar py-2 px-2 px-md-3">
     <div class="container-fluid d-flex align-items-center gap-2">
       <div class="brand fs-3 me-2">BINGEBOX</div>
       <form class="d-flex ms-auto" id="searchForm" role="search" style="max-width:360px;width:100%">
-        <input id="searchInput" class="form-control search-input" type="search" placeholder="Search titles" aria-label="Search">
+        <input id="searchInput" class="form-control search-input" type="search" placeholder="Search titles"
+          aria-label="Search">
         <button class="btn btn-outline-light ms-2" type="submit"><i class="fa fa-search"></i></button>
       </form>
       <div class="ms-2 d-flex align-items-center gap-2">
-  <div class="dropdown">
-    <button class="btn btn-outline-light dropdown-toggle" data-bs-toggle="dropdown">Sort</button>
-    <ul class="dropdown-menu dropdown-menu-end">
-      <li><a class="dropdown-item sort-option" data-sort="genre">Genre</a></li>
-      <li><a class="dropdown-item sort-option" data-sort="year">Year (Newest)</a></li>
-      <li><a class="dropdown-item sort-option" data-sort="rating">Rating (High→Low)</a></li>
-    </ul>
-  </div>
-</div>
 
-        <div class="form-check form-switch ms-2">
-          <input class="form-check-input" type="checkbox" role="switch" id="themeToggle">
-          <label class="form-check-label" for="themeToggle">Light</label>
+        <div class="dropdown">
+          <button class="btn btn-outline-light dropdown-toggle" data-bs-toggle="dropdown">
+            Sort
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item sort-option" data-sort="title">Title (A→Z)</a></li>
+            <li><a class="dropdown-item sort-option" data-sort="year">Year (Newest)</a></li>
+            <li><a class="dropdown-item sort-option" data-sort="genre">Genre (A→Z)</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li class="dropdown-header">By Genre</li>
+            <li><a class="dropdown-item genre-option" data-genre="Romance">Romance</a></li>
+            <li><a class="dropdown-item genre-option" data-genre="Action">Action</a></li>
+            <li><a class="dropdown-item genre-option" data-genre="Thriller">Thriller</a></li>
+            <li><a class="dropdown-item genre-option" data-genre="Horror">Mystery</a></li>
+            <li><a class="dropdown-item genre-option" data-genre="Drama">Drama</a></li>
+            <li><a class="dropdown-item genre-option" data-genre="Comedy">Comedy</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item reset-option">Reset Filters</a></li>
+          </ul>
         </div>
-        <button class="btn btn-outline-light ms-2" data-bs-toggle="modal" data-bs-target="#apiModal"><i class="fa fa-cloud me-1"></i>OMDb</button>
+
+
       </div>
+
+      <div class="form-check form-switch ms-2">
+        <input class="form-check-input" type="checkbox" role="switch" id="themeToggle">
+        <label class="form-check-label" for="themeToggle">Light</label>
+      </div>
+      <!-- <button class="btn btn-outline-light ms-2" data-bs-toggle="modal" data-bs-target="#apiModal"><i class="fa fa-cloud me-1"></i>OMDb</button>
+      </div> -->
     </div>
   </div>
 
   <section class="hero container-fluid">
-  <div class="hero-video">
-    <iframe id="heroVideo" width="100%" height="500"
-      src="https://www.youtube.com/embed/hDZ7y8RP5HE?autoplay=1&mute=1&loop=1&playlist=hDZ7y8RP5HE"
+    <div class="hero-video">
+    <iframe
+      id="heroVideo"
+      width="100%"
+      height="500"
+      src="https://www.youtube.com/embed/hDZ7y8RP5HE?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=hDZ7y8RP5HE"
       frameborder="0"
       allow="autoplay; encrypted-media"
       allowfullscreen>
     </iframe>
     <button id="muteBtn" class="mute-toggle">
-    <i class="fas fa-volume-mute"></i>
-  </button>
+      <i class="fas fa-volume-mute"></i>
+    </button>
   </div>
 
-  <div class="hero-gradient"></div>
-  <div class="hero-content">
-    <div class="brand">BINGEBOX</div>
-    <h1 class="fw-bolder">UNLIMITED MOVIES, TV SHOWS AND MORE.</h1>
-    <div class="d-flex gap-2">
-      <button class="btn btn-play"><i class="fa fa-play me-1"></i>Play</button>
-      <button class="btn btn-info" id="heroInfo"><i class="fa fa-circle-info me-1"></i>More Info</button>
+    <div class="hero-gradient"></div>
+    <div class="hero-content">
+      <div class="brand">BINGEBOX</div>
+      <h1 class="fw-bolder">UNLIMITED MOVIES, TV SHOWS AND MORE.</h1>
+      <div class="d-flex gap-2">
+        <button class="btn btn-play"><i class="fa fa-play me-1"></i>Play</button>
+        <button class="btn btn-info" id="heroInfo"><i class="fa fa-circle-info me-1"></i>More Info</button>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
 
-<!-- Movie rows -->
-   <div class="movie-column">
-  <main class="container-fluid screen">
-    
-    <div class="d-flex justify-content-between align-items-center mt-3">
-      <div class="row-title">ORIGINALS</div>
+  <!-- Movie rows -->
+  <div class="movie-column">
+    <main class="container-fluid screen">
+
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <div class="row-title">NEW ON BINGEBOX</div>
         <div class="row-tools">
-        <div class="pager" data-cat="original"><button class="btn btn-dark btn-sm" data-page="prev"><i class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i class="fa fa-chevron-right"></i></button></div>
+          <div class="pager" data-cat="new on bingebox"><button class="btn btn-dark btn-sm" data-page="prev"><i
+                class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i
+                class="fa fa-chevron-right"></i></button></div>
+        </div>
       </div>
-    </div>
-    <div class="rail" id="rail-original"></div>
+      <div class="rail" id="rail-new on bingebox"></div>
 
-    <div class="d-flex justify-content-between align-items-center mt-2">
-      <div class="row-title">TRENDING SEASON</div>
-      <div class="row-tools">
-        <div class="pager" data-cat="trending"><button class="btn btn-dark btn-sm" data-page="prev"><i class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i class="fa fa-chevron-right"></i></button></div>
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <div class="row-title">ORIGINALS</div>
+        <div class="row-tools">
+          <div class="pager" data-cat="original"><button class="btn btn-dark btn-sm" data-page="prev"><i
+                class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i
+                class="fa fa-chevron-right"></i></button></div>
+        </div>
       </div>
-    </div>
-    <div class="rail" id="rail-trending"></div>
+      <div class="rail" id="rail-original"></div>
 
-    <div class="d-flex justify-content-between align-items-center mt-2">
-      <div class="row-title">POPULAR ON BINGEBOX</div>
-      <div class="row-tools">
-        <div class="pager" data-cat="popular"><button class="btn btn-dark btn-sm" data-page="prev"><i class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i class="fa fa-chevron-right"></i></button></div>
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <div class="row-title">TV COMEDIES</div>
+        <div class="row-tools">
+          <div class="pager" data-cat="tv comedies"><button class="btn btn-dark btn-sm" data-page="prev"><i
+                class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i
+                class="fa fa-chevron-right"></i></button></div>
+        </div>
       </div>
-    </div>
-    <div class="rail" id="rail-popular"></div>
-  </main>
+      <div class="rail" id="rail-tv comedies"></div>
+
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <div class="row-title">MADE IN AFRICA</div>
+        <div class="row-tools">
+          <div class="pager" data-cat="made in africa"><button class="btn btn-dark btn-sm" data-page="prev"><i
+                class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i
+                class="fa fa-chevron-right"></i></button></div>
+        </div>
+      </div>
+      <div class="rail" id="rail-made in africa"></div>
+
+
+      <div class="d-flex justify-content-between align-items-center mt-2">
+        <div class="row-title">TRENDING SEASON</div>
+        <div class="row-tools">
+          <div class="pager" data-cat="trending"><button class="btn btn-dark btn-sm" data-page="prev"><i
+                class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i
+                class="fa fa-chevron-right"></i></button></div>
+        </div>
+      </div>
+      <div class="rail" id="rail-trending"></div>
+
+      <div class="d-flex justify-content-between align-items-center mt-2">
+        <div class="row-title">POPULAR ON BINGEBOX</div>
+        <div class="row-tools">
+          <div class="pager" data-cat="popular"><button class="btn btn-dark btn-sm" data-page="prev"><i
+                class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i
+                class="fa fa-chevron-right"></i></button></div>
+        </div>
+      </div>
+      <div class="rail" id="rail-popular"></div>
+    </main>
   </div>
 
 
- <!-- Modal prompt -->
+  <!-- Modal prompt -->
   <div class="modal fade" id="detailsModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
       <div class="modal-content">
@@ -123,7 +185,7 @@
                 <span class="badge bg-info">Avg ⭐ <span id="detailsAvg">0</span></span>
                 <span class="muted small"><span id="detailsCount">0</span> reviews</span>
               </div>
-              <hr/>
+              <hr />
               <h6>Add a Review</h6>
               <form id="reviewForm" novalidate>
                 <div class="row g-2">
@@ -144,7 +206,8 @@
                   </div>
                   <div class="col-12">
                     <label class="form-label">Review</label>
-                    <textarea class="form-control" id="revText" rows="3" placeholder="What did you think?" required></textarea>
+                    <textarea class="form-control" id="revText" rows="3" placeholder="What did you think?"
+                      required></textarea>
                     <div class="invalid-feedback">Min 2 characters.</div>
                   </div>
                 </div>
@@ -153,7 +216,7 @@
                   <button class="btn btn-outline-light" type="reset"><i class="fa fa-eraser me-1"></i>Clear</button>
                 </div>
               </form>
-              <hr/>
+              <hr />
               <h6>Reviews</h6>
               <ul class="list-group" id="reviewsList"></ul>
             </div>
@@ -166,44 +229,18 @@
     </div>
   </div>
 
-  OMDb Modal
-  <div class="modal fade" id="apiModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">OMDb API</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Add your <a href="https://www.omdbapi.com/apikey.aspx" target="_blank"><strong>OMDb key</strong></a> to fetch real titles.</p>
-          <div class="mb-2">
-            <label class="form-label">API Key</label>
-            <input type="text" id="omdbKey" class="form-control" placeholder="12345678">
-          </div>
-          <div class="mb-2">
-            <label class="form-label">Search Term</label>
-            <input type="text" id="omdbTerm" class="form-control" placeholder="e.g., batman">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-outline-light" data-bs-dismiss="modal">Close</button>
-          <button class="btn btn-accent" id="omdbFetchBtn"><i class="fa fa-cloud-download-alt me-1"></i>Fetch</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- footer -->
-   <footer class="footer-1 text-center py-3 small">
-  © <span id="year"></span> BINGEBOX • All rights reserved.
-</footer>
+  <footer class="footer-1 text-center py-3 small">© <span id="year"></span> BINGEBOX • All rights reserved.</footer>
 
-  
 
-  
-   <script src="script.js"></script>
-   
-    
-    
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+
+  <script src="script.js"></script>
+
+
+
 </body>
+
 </html>
