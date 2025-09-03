@@ -20,7 +20,7 @@
 
 </head>
 
-<body>
+<body style="color: white;">
 
   <!-- NavBar -->
   <div class="nf-navbar py-2 px-2 px-md-3">
@@ -96,6 +96,8 @@
       </div>
     </div>
   </section>
+    
+
 
 
   <!-- Movie rows -->
@@ -103,14 +105,14 @@
     <main class="container-fluid screen">
 
       <div class="d-flex justify-content-between align-items-center mt-3">
-        <div class="row-title">NEW ON BINGEBOX</div>
+        <div class="row-title">NOW PLAYING ON BINGEBOX</div>
         <div class="row-tools">
-          <div class="pager" data-cat="new on bingebox"><button class="btn btn-dark btn-sm" data-page="prev"><i
+          <div class="pager" data-cat="now playing on bingebox"><button class="btn btn-dark btn-sm" data-page="prev"><i
                 class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i
                 class="fa fa-chevron-right"></i></button></div>
         </div>
       </div>
-      <div class="rail" id="rail-new on bingebox"></div>
+      <div class="rail" id="rail-now playing on bingebox"></div>
 
       <div class="d-flex justify-content-between align-items-center mt-3">
         <div class="row-title">ORIGINALS</div>
@@ -123,24 +125,24 @@
       <div class="rail" id="rail-original"></div>
 
       <div class="d-flex justify-content-between align-items-center mt-3">
-        <div class="row-title">TV COMEDIES</div>
+        <div class="row-title">TOP-RATED</div>
         <div class="row-tools">
-          <div class="pager" data-cat="tv comedies"><button class="btn btn-dark btn-sm" data-page="prev"><i
+          <div class="pager" data-cat="top-rated"><button class="btn btn-dark btn-sm" data-page="prev"><i
                 class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i
                 class="fa fa-chevron-right"></i></button></div>
         </div>
       </div>
-      <div class="rail" id="rail-tv comedies"></div>
+      <div class="rail" id="rail-top-rated"></div>
 
       <div class="d-flex justify-content-between align-items-center mt-3">
-        <div class="row-title">MADE IN AFRICA</div>
+        <div class="row-title">BOREDOM BUSTERS</div>
         <div class="row-tools">
-          <div class="pager" data-cat="made in africa"><button class="btn btn-dark btn-sm" data-page="prev"><i
+          <div class="pager" data-cat="boredom busters"><button class="btn btn-dark btn-sm" data-page="prev"><i
                 class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i
                 class="fa fa-chevron-right"></i></button></div>
         </div>
       </div>
-      <div class="rail" id="rail-made in africa"></div>
+      <div class="rail" id="rail-boredom busters"></div>
 
 
       <div class="d-flex justify-content-between align-items-center mt-2">
@@ -166,6 +168,7 @@
   </div>
 
 
+
   <!-- Modal prompt -->
   <div class="modal fade" id="detailsModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
@@ -176,8 +179,11 @@
         </div>
         <div class="modal-body">
           <div class="row g-3">
-            <div class="col-md-4"><img id="detailsPoster" class="img-fluid rounded" alt="Poster"></div>
-            <div class="col-md-8">
+            <div class="col-md-12">
+              <div class="trailer-container">
+                            <iframe id="detailsTrailer" class="video-trailer" width="100%" height="auto" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+            <div class="col-md-12">
               <p class="mb-1"><strong>Year:</strong> <span id="detailsYear"></span></p>
               <p class="mb-1"><strong>Genre:</strong> <span id="detailsGenre"></span></p>
               <p class="mb-2"><strong>Plot:</strong> <span id="detailsPlot"></span></p>
@@ -228,6 +234,7 @@
       </div>
     </div>
   </div>
+  
 
 
   <!-- footer -->
@@ -237,7 +244,7 @@
   <script src="https://www.youtube.com/iframe_api"></script>
 
 
-  <script src="script.js"></script>
+  <script src="script2.js"></script>
 
 
 
