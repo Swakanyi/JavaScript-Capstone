@@ -13,40 +13,39 @@ async function init() {
     try {
         await fetchGenres();
         await fetchAndRenderAllRows();
-        await fetchAndSetHeroTrailer();
     } catch (error) {
         console.error("Initialization error:", error);
     }
 }
 
-//fetch and set herovideo
-async function fetchAndSetHeroTrailer() {
-    try {
-        const popularMoviesUrl = `${TMDB_BASE_URL}movie/popular?api_key=${TMDB_API_KEY}`;
-        const popularMoviesRes = await fetch(popularMoviesUrl);
-        const popularMoviesData = await popularMoviesRes.json();
-        
-        if (popularMoviesData.results && popularMoviesData.results.length > 0) {
-            const featuredMovieId = popularMoviesData.results[1].id; // Use the first popular movie
-            const videosUrl = `${TMDB_BASE_URL}movie/${featuredMovieId}/videos?api_key=${TMDB_API_KEY}`;
-            const videosRes = await fetch(videosUrl);
-            const videosData = await videosRes.json();
-
-            const trailer = videosData.results.find(
-                (video) => video.site === "YouTube" && video.type === "Trailer"
-            );
-
-            if (trailer) {
-                const heroVideoIframe = document.getElementById("heroVideo");
-                const trailerUrl = `https://www.youtube.com/embed/${trailer.key}?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=${trailer.key}`;
-                heroVideoIframe.src = trailerUrl;
-            } else {
-                console.log("No trailer found for the featured movie.");
-            }
-        }
-    } catch (error) {
-        console.error("Error fetching hero trailer:", error);
+// Global YouTube API function
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player("heroVideo", {
+    videoId: "ScMzIvxBSi4", // your fixed YT video ID
+    playerVars: {
+      autoplay: 1,
+      mute: 1,
+      controls: 0,
+      loop: 1,
+      playlist: "ScMzIvxBSi4"
+    },
+    events: {
+      onReady: onPlayerReady
     }
+  });
+}
+
+function onPlayerReady() {
+  const muteBtn = document.getElementById("muteBtn");
+  muteBtn.addEventListener("click", () => {
+    if (player.isMuted()) {
+      player.unMute();
+      muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+    } else {
+      player.mute();
+      muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+    }
+  });
 }
 
 //fetching genres
@@ -405,33 +404,43 @@ document.querySelectorAll(".pager button").forEach(btn => {
     });
 });
 
-// Mute button
+init();
+
+//controlling mute
 let player;
 
-  function onYouTubeIframeAPIReady() {
-    player = new YT.Player("heroVideo", {
-      events: {
-        onReady: (event) => {
-          event.target.mute(); // start muted
-          event.target.playVideo();
-        }
-      }
-    });
-  }
+// Called by YouTube API automatically
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player("heroVideo", {
+    videoId: "LKFuXETZUsI", 
+    playerVars: {
+      autoplay: 1,
+      mute: 1,
+      controls: 0,
+      loop: 1,
+      playlist: "LKFuXETZUsI", 
+      modestbranding: 1,
+      showinfo: 0,
+      rel: 0
+    },
+    events: {
+      onReady: onPlayerReady
+    }
+  });
+}
 
-  document.addEventListener("DOMContentLoaded", () => {
-    const muteBtn = document.getElementById("muteBtn");
-    const video = document.getElementById("hero-video"); // or audio element
+function onPlayerReady() {
+  const muteBtn = document.getElementById("muteBtn");
 
-    muteBtn.addEventListener("click", () => {
-        if (video.muted) {
-            video.muted = false;
-            muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
-        } else {
-            video.muted = true;
-            muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-        }
-    });
-});
+  muteBtn.addEventListener("click", () => {
+    console.log("Mute button clicked"); 
 
-init(); // Call initialize function to start fetching data
+    if (player.isMuted()) {
+      player.unMute();
+      muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+    } else {
+      player.mute();
+      muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+    }
+  });
+}
