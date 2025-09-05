@@ -2,7 +2,7 @@ const TMDB_API_KEY = "3caec7b8e82c93c4f3f5a27a02877e33";
 const TMDB_BASE_URL = "https://api.themoviedb.org/3/";
 const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
 
-
+let player;
 let activeMovieId = null;
 const LS_KEY = "cinescore_reviews_simple";
 let movieCache = {};   //to store fetched movies
@@ -18,16 +18,20 @@ async function init() {
     }
 }
 
-// Global YouTube API function
+// Global YouTube API function and mute
+
 function onYouTubeIframeAPIReady() {
   player = new YT.Player("heroVideo", {
-    videoId: "ScMzIvxBSi4", // your fixed YT video ID
+    videoId: "LKFuXETZUsI", 
     playerVars: {
       autoplay: 1,
       mute: 1,
       controls: 0,
       loop: 1,
-      playlist: "ScMzIvxBSi4"
+      playlist: "LKFuXETZUsI", 
+      modestbranding: 1,
+      showinfo: 0,
+      rel: 0
     },
     events: {
       onReady: onPlayerReady
@@ -37,7 +41,10 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerReady() {
   const muteBtn = document.getElementById("muteBtn");
+
   muteBtn.addEventListener("click", () => {
+    console.log("Mute button clicked"); 
+
     if (player.isMuted()) {
       player.unMute();
       muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
@@ -372,7 +379,7 @@ document.querySelectorAll(".genre-option").forEach(btn => {
 
 // Reset filter
 document.querySelector(".reset-option").addEventListener("click", () => {
-    renderRows(); // Renders from the cache
+    renderRows(); // Renders from the stored movies in cache
 });
 
 // Toggle theme (light/dark)
@@ -406,41 +413,3 @@ document.querySelectorAll(".pager button").forEach(btn => {
 
 init();
 
-//controlling mute
-let player;
-
-// Called by YouTube API automatically
-function onYouTubeIframeAPIReady() {
-  player = new YT.Player("heroVideo", {
-    videoId: "LKFuXETZUsI", 
-    playerVars: {
-      autoplay: 1,
-      mute: 1,
-      controls: 0,
-      loop: 1,
-      playlist: "LKFuXETZUsI", 
-      modestbranding: 1,
-      showinfo: 0,
-      rel: 0
-    },
-    events: {
-      onReady: onPlayerReady
-    }
-  });
-}
-
-function onPlayerReady() {
-  const muteBtn = document.getElementById("muteBtn");
-
-  muteBtn.addEventListener("click", () => {
-    console.log("Mute button clicked"); 
-
-    if (player.isMuted()) {
-      player.unMute();
-      muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
-    } else {
-      player.mute();
-      muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-    }
-  });
-}

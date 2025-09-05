@@ -204,7 +204,7 @@ a{
 }
 .trailer-container {
     position: relative;
-    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    padding-bottom: 56.25%; 
     height: 0;
     overflow: hidden;
 }
@@ -349,10 +349,12 @@ body.light .list-group-item{
     font-weight:600; 
 }
 .footer-1{
-    background: rgba(0,0,0,0.55);
-    color: #ddd;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    backdrop-filter: blur(6px);
+    background: #000;    
+  color: #fff;          
+  text-align: center;
+  padding: 15px 0;
+  position: relative;   
+  z-index: 5;;
   }
   body.light .footer-1{ 
     background: rgba(255,255,255,0.8); color:#222; border-top:1px solid #eee; 
