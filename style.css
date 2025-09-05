@@ -132,14 +132,16 @@ a{
   height: 100%;
   overflow: hidden;
   z-index: 0;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .heroVideo iframe {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 120%;
-  height: 120%;
+  width: 118%;
+  height: 118%;
   transform: translate(-50%, -50%);
   border: none;
   pointer-events: none; 
@@ -287,6 +289,9 @@ body.light .nf-navbar{
 body.light .nf-navbar a {
   color: #0b1320; 
 }
+body.light .row-title {
+  color: #0b1320;  /
+}
 
 body.light .nf-navbar a:hover {
   color: var(--accent); 
@@ -349,8 +354,9 @@ body.light .list-group-item{
     font-weight:600; 
 }
 .footer-1{
-    background: #000;    
-  color: #fff;          
+  background: #000;    
+  color: #fff; 
+  font-size: 20px;         
   text-align: center;
   padding: 15px 0;
   position: relative;   

@@ -124,9 +124,9 @@ async function fetchAndRenderAllRows() {
         "now playing on bingebox": "now_playing",
         "original": "popular",
         "top-rated": "top_rated",
-        "boredom busters": "popular",
+        "boredom busters": "now_playing",
         "trending": "popular",
-        "popular": "popular"
+        "popular": "top_rated"
     };
     const fetchPromises = Object.keys(categories).map(cat => fetchMovies(categories[cat], cat));
     await Promise.all(fetchPromises);
@@ -388,10 +388,10 @@ document.getElementById("themeToggle").addEventListener("change", e => {
 });
 
 // Hero more info
-document.getElementById("heroInfo").addEventListener("click", () => {
-    const featuredMovie = movieCache["popular"] && movieCache["popular"][1];
-    if (featuredMovie) openDetails(featuredMovie.id);
-});
+// document.getElementById("heroInfo").addEventListener("click", () => {
+//     const featuredMovie = movieCache["popular"] && movieCache["popular"][1];
+//     if (featuredMovie) openDetails(featuredMovie.id);
+// });
 
 // scroll controls
 document.querySelectorAll(".pager button").forEach(btn => {
