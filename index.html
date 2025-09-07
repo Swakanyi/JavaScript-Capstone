@@ -20,37 +20,65 @@
 
 </head>
 
-<body style="color: white;">
+<body>
 
   <!-- NavBar -->
   <div class="nf-navbar py-2 px-2 px-md-3">
     <div class="container-fluid d-flex align-items-center gap-2">
       <div class="brand fs-3 me-2">BINGEBOX</div>
+
+
       <form class="d-flex ms-auto" id="searchForm" role="search" style="max-width:360px;width:100%">
         <input id="searchInput" class="form-control search-input" type="search" placeholder="Search titles"
           aria-label="Search">
         <button class="btn btn-outline-light ms-2" type="submit"><i class="fa fa-search"></i></button>
       </form>
       <div class="ms-2 d-flex align-items-center gap-2">
-
         <div class="dropdown">
           <button class="btn btn-outline-light dropdown-toggle" data-bs-toggle="dropdown">
             Sort
           </button>
+
+          <a href="my-list.html" class="btn btn-outline-light me-2">
+            <i class="fas fa-heart me-1"></i> My List
+          </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item sort-option" data-sort="title">Title (A→Z)</a></li>
-            <li><a class="dropdown-item sort-option" data-sort="year">Year (Newest)</a></li>
-            <li><a class="dropdown-item sort-option" data-sort="genre">Genre (A→Z)</a></li>
+
+            <!-- By type -->
+            <li class="dropdown-submenu">
+              <a class="dropdown-item" href="#">By Type</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item type-option" data-type="movie">Movies</a></li>
+                <li><a class="dropdown-item type-option" data-type="tv">TV Shows</a></li>
+              </ul>
+            </li>
+
+            <!-- By Genre -->
+            <li class="dropdown-submenu">
+              <a class="dropdown-item" href="#">By Genre</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item genre-option" data-genre="Action">Action</a></li>
+                <li><a class="dropdown-item genre-option" data-genre="Comedy">Comedy</a></li>
+                <li><a class="dropdown-item genre-option" data-genre="Drama">Drama</a></li>
+                <li><a class="dropdown-item genre-option" data-genre="Horror">Horror</a></li>
+                <li><a class="dropdown-item genre-option" data-genre="Romance">Romance</a></li>
+                <li><a class="dropdown-item genre-option" data-genre="Thriller">Thriller</a></li>
+                <li><a class="dropdown-item genre-option" data-genre="Fantasy">Fantasy</a></li>
+                <li><a class="dropdown-item genre-option" data-genre="Sci-Fi">Sci-Fi</a></li>
+                <li><a class="dropdown-item genre-option" data-genre="Adventure">Adventure</a></li>
+                <li><a class="dropdown-item genre-option" data-genre="Documentary">Documentary</a></li>
+                <li><a class="dropdown-item genre-option" data-genre="Animation">Animation</a></li>
+                <li><a class="dropdown-item genre-option" data-genre="Crime">Crime</a></li>
+              </ul>
+            </li>
+
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li class="dropdown-header">By Genre</li>
-            <li><a class="dropdown-item genre-option" data-genre="Romance">Romance</a></li>
-            <li><a class="dropdown-item genre-option" data-genre="Action">Action</a></li>
-            <li><a class="dropdown-item genre-option" data-genre="Thriller">Thriller</a></li>
-            <li><a class="dropdown-item genre-option" data-genre="Horror">Mystery</a></li>
-            <li><a class="dropdown-item genre-option" data-genre="Drama">Drama</a></li>
-            <li><a class="dropdown-item genre-option" data-genre="Comedy">Comedy</a></li>
+            <li><a class="dropdown-item sort-option" data-sort="title">Title (A→Z)</a></li>
+            <li><a class="dropdown-item sort-option" data-sort="year">Year (Newest)</a></li>
+            <li><a class="dropdown-item sort-option" data-sort="rating">Rating (Popularity)</a></li>
+
             <li>
               <hr class="dropdown-divider">
             </li>
@@ -59,108 +87,120 @@
         </div>
 
 
-      </div>
-
-      <div class="form-check form-switch ms-2">
-        <input class="form-check-input" type="checkbox" role="switch" id="themeToggle">
-        <label class="form-check-label" for="themeToggle">Light</label>
-      </div>
-      <!-- <button class="btn btn-outline-light ms-2" data-bs-toggle="modal" data-bs-target="#apiModal"><i class="fa fa-cloud me-1"></i>OMDb</button>
+        <div class="form-check form-switch ms-2">
+          <input class="form-check-input" type="checkbox" role="switch" id="themeToggle">
+          <label class="form-check-label" for="themeToggle">Light</label>
+        </div>
+        <!-- <button class="btn btn-outline-light ms-2" data-bs-toggle="modal" data-bs-target="#apiModal"><i class="fa fa-cloud me-1"></i>OMDb</button>
       </div> -->
-    </div>
-  </div>
-
-
-  <!-- Hero section -->
-  <section class="hero container-fluid">
-    <div class="heroVideo">
-      <div id="heroVideo"></div> <!-- API to replace this with iframe -->
-      <button id="muteBtn" class="mute-toggle">
-        <i class="fas fa-volume-mute"></i>
-      </button>
+      </div>
     </div>
 
-    <div class="hero-gradient"></div>
-    <div class="hero-content">
-      <div class="brand">BINGEBOX</div>
-      <h1 class="fw-bolder">UNLIMITED MOVIES, TV SHOWS AND MORE.</h1>
-      <!-- <div class="d-flex gap-2">
+
+    <!-- Hero section -->
+    <main>
+      <section class="hero container-fluid">
+        <div class="heroVideo">
+          <div id="heroVideo"></div> <!-- YOUTUBE API COMES HERE-->
+          <button id="muteBtn" class="mute-toggle">
+            <i class="fas fa-volume-mute"></i>
+          </button>
+        </div>
+
+        <div class="hero-gradient"></div>
+        <div class="hero-content">
+          <div class="brand">BINGEBOX</div>
+          <h1 class="fw-bolder">UNLIMITED MOVIES, TV SHOWS AND MORE.</h1>
+          <!-- <div class="d-flex gap-2">
       <button class="btn btn-play"><i class="fa fa-play me-1"></i>Play</button>
       <button class="btn btn-info" id="heroInfo"><i class="fa fa-circle-info me-1"></i>More Info</button>
     </div> -->
-    </div>
-  </section>
-
-
-
-
-
-  <!-- Movie rows -->
-  <div class="movie-column">
-    <main class="container-fluid screen">
-
-      <div class="d-flex justify-content-between align-items-center mt-3">
-        <div class="row-title">NOW PLAYING ON BINGEBOX</div>
-        <div class="row-tools">
-          <div class="pager" data-cat="now playing on bingebox"><button class="btn btn-dark btn-sm" data-page="prev"><i
-                class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i
-                class="fa fa-chevron-right"></i></button></div>
         </div>
-      </div>
-      <div class="rail" id="rail-now playing on bingebox"></div>
-
-      <div class="d-flex justify-content-between align-items-center mt-3">
-        <div class="row-title">ORIGINALS</div>
-        <div class="row-tools">
-          <div class="pager" data-cat="original"><button class="btn btn-dark btn-sm" data-page="prev"><i
-                class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i
-                class="fa fa-chevron-right"></i></button></div>
-        </div>
-      </div>
-      <div class="rail" id="rail-original"></div>
-
-      <div class="d-flex justify-content-between align-items-center mt-3">
-        <div class="row-title">TOP-RATED</div>
-        <div class="row-tools">
-          <div class="pager" data-cat="top-rated"><button class="btn btn-dark btn-sm" data-page="prev"><i
-                class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i
-                class="fa fa-chevron-right"></i></button></div>
-        </div>
-      </div>
-      <div class="rail" id="rail-top-rated"></div>
-
-      <div class="d-flex justify-content-between align-items-center mt-3">
-        <div class="row-title">BOREDOM BUSTERS</div>
-        <div class="row-tools">
-          <div class="pager" data-cat="boredom busters"><button class="btn btn-dark btn-sm" data-page="prev"><i
-                class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i
-                class="fa fa-chevron-right"></i></button></div>
-        </div>
-      </div>
-      <div class="rail" id="rail-boredom busters"></div>
+      </section>
 
 
-      <div class="d-flex justify-content-between align-items-center mt-2">
-        <div class="row-title">TRENDING SEASON</div>
-        <div class="row-tools">
-          <div class="pager" data-cat="trending"><button class="btn btn-dark btn-sm" data-page="prev"><i
-                class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i
-                class="fa fa-chevron-right"></i></button></div>
-        </div>
-      </div>
-      <div class="rail" id="rail-trending"></div>
 
-      <div class="d-flex justify-content-between align-items-center mt-2">
-        <div class="row-title">POPULAR ON BINGEBOX</div>
-        <div class="row-tools">
-          <div class="pager" data-cat="popular"><button class="btn btn-dark btn-sm" data-page="prev"><i
-                class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i
-                class="fa fa-chevron-right"></i></button></div>
-        </div>
+
+
+      <!-- Movie rows -->
+      <div class="movie-column">
+        <main class="container-fluid screen">
+
+          <div id="section-now-playing-on-bingebox">
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <div class="row-title">NOW PLAYING ON BINGEBOX</div>
+              <div class="row-tools">
+                <div class="pager" data-cat="now-playing-on-bingebox"><button class="btn btn-dark btn-sm"
+                    data-page="prev"><i class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm"
+                    data-page="next"><i class="fa fa-chevron-right"></i></button></div>
+              </div>
+            </div>
+            <div class="rail" id="rail-now-playing-on-bingebox"></div>
+          </div>
+
+          <div id="section-original">
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <div class="row-title">ORIGINALS</div>
+              <div class="row-tools">
+                <div class="pager" data-cat="original"><button class="btn btn-dark btn-sm" data-page="prev"><i
+                      class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i
+                      class="fa fa-chevron-right"></i></button></div>
+              </div>
+            </div>
+            <div class="rail" id="rail-original"></div>
+          </div>
+
+          <div id="section-top-rated">
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <div class="row-title">TOP-RATED</div>
+              <div class="row-tools">
+                <div class="pager" data-cat="top-rated"><button class="btn btn-dark btn-sm" data-page="prev"><i
+                      class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i
+                      class="fa fa-chevron-right"></i></button></div>
+              </div>
+            </div>
+            <div class="rail" id="rail-top-rated"></div>
+          </div>
+
+          <div id="section-boredom-busters">
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <div class="row-title">BOREDOM BUSTERS</div>
+              <div class="row-tools">
+                <div class="pager" data-cat="boredom-busters"><button class="btn btn-dark btn-sm" data-page="prev"><i
+                      class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i
+                      class="fa fa-chevron-right"></i></button></div>
+              </div>
+            </div>
+            <div class="rail" id="rail-boredom-busters"></div>
+          </div>
+
+
+          <div id="section-trending">
+            <div class="d-flex justify-content-between align-items-center mt-2">
+              <div class="row-title">TRENDING SEASON</div>
+              <div class="row-tools">
+                <div class="pager" data-cat="trending"><button class="btn btn-dark btn-sm" data-page="prev"><i
+                      class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i
+                      class="fa fa-chevron-right"></i></button></div>
+              </div>
+            </div>
+            <div class="rail" id="rail-trending"></div>
+          </div>
+
+          <div id="section-popular">
+            <div class="d-flex justify-content-between align-items-center mt-2">
+              <div class="row-title">POPULAR ON BINGEBOX</div>
+              <div class="row-tools">
+                <div class="pager" data-cat="popular"><button class="btn btn-dark btn-sm" data-page="prev"><i
+                      class="fa fa-chevron-left"></i></button> <button class="btn btn-dark btn-sm" data-page="next"><i
+                      class="fa fa-chevron-right"></i></button></div>
+              </div>
+            </div>
+            <div class="rail" id="rail-popular"></div>
+        </main>
       </div>
-      <div class="rail" id="rail-popular"></div>
-    </main>
   </div>
+  </main>
 
 
 
@@ -180,6 +220,14 @@
                   allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                   allowfullscreen></iframe>
               </div>
+
+              <!-- wishlist btn -->
+              <div class="mt-3 mb-3">
+                <button id="addToWishlistBtn" class="btn btn-outline-warning">
+                  <i class="fa fa-heart"></i> Add to Wishlist
+                </button>
+              </div>
+
               <div class="col-md-12">
                 <p class="mb-1"><strong>Year:</strong> <span id="detailsYear"></span></p>
                 <p class="mb-1"><strong>Genre:</strong> <span id="detailsGenre"></span></p>
@@ -233,10 +281,11 @@
     </div>
   </div>
 
+
   <!--Footer -->
-<footer class="footer-1 text-center py-3 medium">
-  © <span id="year"></span> BINGEBOX • All rights reserved.
-</footer>
+  <footer class="footer-1 text-center py-3 medium">
+    © <span id="year"></span> BINGEBOX • All rights reserved.
+  </footer>
 
   <script src="script2.js"></script>
 
